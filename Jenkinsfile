@@ -30,13 +30,18 @@ pipeline {
             steps {
                 // kubernetesDeploy (configs: 'deployment.yml', kubeconfigId: 'kubeconfig')
                 // sh 'kubectl rollout restart deployment docker-jenkins-k8s-deployment'
-                 withKubeConfig([credentialsId: 'kubeconfig']) {
-                        sh "kubectl config use-context minikube || true"
-                        sh """
-                            kubectl apply -f deployment.yml
-                            kubectl rollout restart deployment docker-jenkins-k8s-deployment
-                        """
-                    }
+                 // withKubeConfig([credentialsId: 'kubeconfig']) {
+                 //        sh "kubectl config use-context minikube || true"
+                 //        sh """
+                 //            kubectl apply -f deployment.yml
+                 //            kubectl rollout restart deployment docker-jenkins-k8s-deployment
+                 //        """
+                 //    }
+
+                export KUBECONFIG=/Users/ajeet/.kube/config
+            kubectl config get-contexts
+            kubectl apply -f deployment.yml
+            kubectl rollout restart deployment docker-jenkins-k8s-deployment
               }
         }
         
