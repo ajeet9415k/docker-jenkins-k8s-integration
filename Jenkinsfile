@@ -38,10 +38,11 @@ pipeline {
                  //        """
                  //    }
 
-                export KUBECONFIG=/Users/ajeet/.kube/config
-            kubectl config get-contexts
-            kubectl apply -f deployment.yml
-            kubectl rollout restart deployment docker-jenkins-k8s-deployment
+                    sh """export KUBECONFIG=/Users/ajeet/.kube/config
+                    kubectl config get-contexts
+                    kubectl apply -f deployment.yml
+                    kubectl rollout restart deployment docker-jenkins-k8s-deployment
+                    """
               }
         }
         
