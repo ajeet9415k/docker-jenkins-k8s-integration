@@ -28,8 +28,15 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                kubernetesDeploy (configs: 'deployment.yml', kubeconfigId: 'kubeconfig')
-                sh 'kubectl rollout restart deployment docker-jenkins-k8s-deployment'
+                // kubernetesDeploy (configs: 'deployment.yml', kubeconfigId: 'kubeconfig')
+                // sh 'kubectl rollout restart deployment docker-jenkins-k8s-deployment'
+                 withKubeConfig([credentialsId: 'kubeconfig-local']) {
+                        sh "kubectl config use-context minikube || true"
+                        sh """
+                            kubectl apply -f deployment.yml
+                            kubectl rollout restart deployment docker-jenkins-k8s-deployment
+                        """
+                    }
               }
         }
         
